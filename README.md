@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # ViajaXColombia
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.8.
@@ -57,3 +58,20 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+=======
+<div align="center">
+<img width="1200" height="475" alt="Logo" src="" />
+</div>
+
+# Run and deploy your
+
+This contains everything you need to run your app locally.
+
+
+## Run Locally
+
+**Prerequisites:**  
+
+
+
+>>>>>>> 5184e8a16d5cb845604795d68dc5d9e961e31d7b

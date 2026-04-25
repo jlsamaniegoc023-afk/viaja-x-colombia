@@ -1,0 +1,1171 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ViajaXColombia | Viajes, Cultura y Naturaleza</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Manrope:wght@200..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    
+    <!-- Tailwind CSS CDN (v3.4) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              headline: ["Newsreader", "serif"],
+              body: ["Manrope", "sans-serif"],
+            },
+            colors: {
+              primary: "#154212",
+              "primary-container": "#2d5a27",
+              secondary: "#795900",
+              "secondary-container": "#fec330",
+              surface: "#f8faf9",
+              "surface-container-low": "#f2f4f3",
+              "surface-container-lowest": "#ffffff",
+              "on-surface": "#191c1c",
+              "on-surface-variant": "#42493e",
+              "outline-variant": "#c2c9bb",
+              "tertiary-fixed-dim": "#f8bd2a",
+            }
+          }
+        }
+      }
+    </script>
+
+    <style type="text/tailwindcss">
+      @layer base {
+        h1, h2, h3, .font-headline {
+          font-family: "Newsreader", serif;
+        }
+        body {
+          font-family: "Manrope", sans-serif;
+        }
+      }
+
+      @layer utilities {
+        .hero-gradient {
+          background: linear-gradient(180deg, rgba(21, 66, 18, 0.4) 0%, rgba(21, 66, 18, 0.8) 100%);
+        }
+
+        .glass-nav {
+          background: rgba(248, 250, 249, 0.8);
+          backdrop-filter: blur(20px);
+        }
+
+        .silk-gradient {
+          background: linear-gradient(135deg, #154212 0%, #2d5a27 100%);
+        }
+
+        .photo-bleed-bg {
+          clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+        }
+      }
+
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+
+      .fill-icon {
+        font-variation-settings: 'FILL' 1;
+      }
+    </style>
+  </head>
+  <body class="bg-[#f8faf9] text-[#191c1c]">
+    <div id="root"></div>
+
+    <script>
+      // --- DATA ---
+      const appData = {
+        destinations: [
+          {
+            id: "tayrona",
+            name: "PNN Tayrona",
+            region: "Caribe",
+            price: "$300.000",
+            points: "450 pts",
+            description: "Vive la aventura del buceo y descubre las aguas cristalinas, la selva tropical y las playas de arena blanca de Cabo San Juan en el Parque Tayrona.",
+            image: "Imagenes/Destinos/Tayrona/CabosanJuan.jpg",
+            difficulty: "Moderada",
+            ecosystem: "Selva Tropical",
+            category: "Playa",
+            duration: "3 días",
+            people: 2,
+            rating: 4.8,
+            reviews: 124
+          },
+          {
+            id: "cocora",
+            name: "Valle del Cocora",
+            region: "Eje Cafetero ",
+            price: "$180.000",
+            points: "320 pts",
+            description: "El hogar de la palma de cera. Camina entre nubes y descubre la magia del Eje Cafetero.",
+            image: "Imagenes/Destinos/montañas/Cocora.jpg",
+            difficulty: "Baja",
+            ecosystem: "Bosque de Niebla",
+            category: "Senderismo",
+            duration: "5 días",
+            people: 2,
+            rating: 4.9,
+            reviews: 89
+          },
+          {
+            id: "cocuy",
+            name: "PNN El Cocuy",
+            region: "Andina",
+            price: "$750.000",
+            points: "890 pts",
+            description: "La majestuosidad de los glaciares andinos. Un reto para el alma y una vista incomparable.",
+            image: "Imagenes/Destinos/montañas/Cocuy.jpg",
+            difficulty: "Alta",
+            ecosystem: "Páramo",
+            category: "Aventura",
+            duration: "1 semana",
+            people: 2,
+            rating: 4.9,
+            reviews: 38
+          },
+          {
+            id: "cristales",
+            name: "Caño Cristales",
+            region: "Meta Serranía de la Macarena",
+            price: "$3.525.000",
+            points: "600 pts",
+            description: "El río más hermoso del mundo te espera con sus siete colores y biodiversidad inigualable.",
+            image: "Imagenes/Destinos/Montañas/CañoCristales.jpg",
+            difficulty: "Moderada",
+            ecosystem: "Selva Húmeda",
+            category: "Senderismo",
+            duration: "5 días",
+            people: 2,
+            rating: 5.0,
+            reviews: 42
+          },
+          {
+            id: "guatape",
+            name: "Guatapé",
+            region: "Antioquia",
+            price: "$1.249.000",
+            points: "250 pts",
+            description: "Un pueblo de colores y una piedra con vista panorámica al embalse.",
+            image: "Imagenes/Destinos/Montañas/Guatape01.jpg",
+            difficulty: "Baja",
+            ecosystem: "Andino",
+            category: "Cultural",
+            duration: "3 días",
+            people: 2,
+            rating: 4.7,
+            reviews: 210
+          },
+          {
+            id: "amazonas",
+            name: "Amazonas",
+            region: "Amazonía",
+            price: "$4.519.050",
+            points: "93 pts",
+            description: "Inmersión total en el pulmón del mundo. Encuentro con delfines rosados.",
+            image: "Imagenes/Destinos/Montañas/Amazonas01.jpg",
+            difficulty: "Moderada",
+            ecosystem: "Selva Tropical",
+            category: "Aventura",
+            duration: "1 semana",
+            people: 2,
+            rating: 4.9,
+            reviews: 56
+          },
+          {
+            id: "cartagena",
+            name: "Cartagena",
+            region: "Caribe",
+            price: "$1.900.000",
+            points: "500 pts",
+            description: "Historia colonial y murallas frente al mar Caribe. La ciudad heroica.",
+            image: "Imagenes/Destinos/cartagena/Cartagena.jpg",
+            difficulty: "Baja",
+            ecosystem: "Costero",
+            category: "Cultural",
+            duration: "5 días",
+            people: 2,
+            rating: 4.8,
+            reviews: 432
+          },
+          {
+            id: "san-andres",
+            name: "San Andrés",
+            region: "Insular",
+            price: "$2.500.000",
+            points: "700 pts",
+            description: "El mar de los siete colores y brisa caribeña en una isla paradisíaca.",
+            image: "https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?q=80&w=1000&auto=format&fit=crop",
+            difficulty: "Baja",
+            ecosystem: "Arrecife Coralino",
+            category: "Playa",
+            duration: "1 semana",
+            people: 2,
+            rating: 4.6,
+            reviews: 187
+          },
+          {
+            id: "tatacoa",
+            name: "La Tatacoa",
+            region: "Huila",
+            price: "$2.090.000",
+            points: "400 pts",
+            description: "Observación astronómica y paisajes ocres en el desierto rojo.",
+            image: "Imagenes/Destinos/cartagena/tatacoa.jpg",
+            difficulty: "Baja",
+            ecosystem: "Bosque Seco Tropical",
+            category: "Aventura",
+            duration: "3 días",
+            people: 2,
+            rating: 4.8,
+            reviews: 74
+          },
+          {
+            id: "villa-leyva",
+            name: "Villa de Leyva",
+            region: "Andina",
+            price: "$1.790.000",
+            points: "300 pts",
+            description: "Pueblo colonial con la plaza más grande de Colombia y fósiles milenarios.",
+            image: "Imagenes/Destinos/Boyaca/VilladeLeyva.jpg",
+            difficulty: "Baja",
+            ecosystem: "Andino",
+            category: "Familiar",
+            duration: "3 días",
+            people: 2,
+            rating: 4.7,
+            reviews: 156
+          },
+          {
+            id: "barichara",
+            name: "Barichara",
+            region: "Santander",
+            price: "$1.680.000",
+            points: "350 pts",
+            description: "El pueblo más lindo de Colombia tallado en piedra y tranquilidad absoluta.",
+            image: "Imagenes/Destinos/santander/Barichara.jpg",
+            difficulty: "Baja",
+            ecosystem: "Andino",
+            category: "Cultural",
+            duration: "3 días",
+            people: 2,
+            rating: 4.9,
+            reviews: 93
+          },
+          {
+            id: "nuqui",
+            name: "Nuquí",
+            region: "Pacífico",
+            price: "$2.890.000",
+            points: "850 pts",
+            description: "Avistamiento de ballenas y selva virgen junto al océano Pacífico.",
+            image: "Imagenes/Destinos/fauna/Nuqui.jpg",
+            difficulty: "Moderada",
+            ecosystem: "Selva Húmeda Tropical",
+            category: "Playa",
+            duration: "5 días",
+            people: 2,
+            rating: 4.8,
+            reviews: 67
+          }
+        ],
+        expeditions: [
+          {
+            id: "ruta-cafe",
+            title: "Ruta del Café",
+            category: "Digital Nomad",
+            rating: 4.9,
+            duration: "6 Días",
+            difficulty: "Baja",
+            price: "$1.249.000",
+            description: "Conéctate con el origen en el corazón del Quindío. Espacios de co-working en haciendas tradicionales.",
+            image: "Imagenes/Destinos/Montañas/ejecafeterotabla01.jpg"
+          },
+          {
+            id: "amazonas",
+            title: "Amazonas Ancestral",
+            category: "Wellness",
+            rating: 5.0,
+            duration: "8 Días",
+            difficulty: "Moderada",
+            price: "$4.519.050",
+            description: "Inmersión profunda en la selva. Rituales de sanación y avistamiento de delfines rosados.",
+            image: "Imagenes/Destinos/Montañas/Amazonas.jpg"
+          }
+        ],
+        offices: [
+          {
+            city: "Bogotá D.C.",
+            address: "Calle 93 #12-45, Barrio Chicó Norte.",
+            hours: "Lun - Vie: 8am - 6pm",
+            image: "Imagenes/Oficinas/Bogota.jpg"
+          },
+          {
+            city: "Medellín",
+            address: "Carrera 43A #1-50, San Fernando Plaza.",
+            hours: "Lun - Sáb: 9am - 7pm",
+            image: "Imagenes/Oficinas/Medellin .jpg"
+          },
+          {
+            city: "Cartagena",
+            address: "Centro Histórico, Calle del Tablón #4-12.",
+            hours: "24/7 Soporte en Sitio",
+            image: "Imagenes/Oficinas/Cartagena.jpg"
+          }
+        ]
+      };
+
+      // --- LOGIC ---
+      const root = document.getElementById('root');
+
+      function renderHeader() {
+        const query = window.currentSearchQuery || '';
+        return `
+          <nav class="fixed top-0 left-0 w-full flex justify-between items-center px-4 md:px-8 py-4 max-w-full mx-auto glass-nav z-50">
+            <div class="flex items-center gap-4 md:gap-6 flex-1">
+              <div class="flex items-center gap-3 cursor-pointer shrink-0" onclick="navigateTo('home')">
+                <!-- Logo Isotype / Mark -->
+                <div class="w-10 h-10 rounded-full silk-gradient flex items-center justify-center text-white font-black italic text-xl shadow-md border-2 border-white/20">X</div>
+                <div class="text-xl md:text-2xl font-black text-primary font-headline tracking-tight hidden sm:block">
+                  viaja<span class="text-secondary italic">X</span>Colombia
+                </div>
+              </div>
+              <div class="flex items-center bg-surface-container-low rounded-full px-3 py-1.5 md:px-4 md:py-2 border border-outline-variant/10 w-full max-w-[150px] sm:max-w-[200px] md:max-w-sm">
+                <span class="material-symbols-outlined text-on-surface-variant text-sm cursor-pointer" onclick="triggerSearch()">search</span>
+                <input type="text" id="globalSearch" value="${query}" placeholder="Buscar..." class="bg-transparent border-none focus:ring-0 text-xs md:text-sm ml-2 w-full" onkeyup="if(event.key === 'Enter') triggerSearch()">
+              </div>
+            </div>
+            
+            <!-- Desktop Links -->
+            <div class="hidden lg:flex items-center gap-6 xl:gap-8 mx-4">
+              <a class="text-on-surface/70 font-medium hover:text-primary transition-colors whitespace-nowrap text-sm xl:text-base" href="javascript:void(0)" onclick="navigateTo('destinations')">Destinos</a>
+              <a class="text-on-surface/70 font-medium hover:text-primary transition-colors whitespace-nowrap text-sm xl:text-base" href="javascript:void(0)" onclick="navigateTo('viajaxpass')">viajaXPass</a>
+              <a class="text-on-surface/70 font-medium hover:text-primary transition-colors whitespace-nowrap text-sm xl:text-base" href="javascript:void(0)" onclick="navigateTo('about')">Quiénes Somos</a>
+              <a class="text-on-surface/70 font-medium hover:text-primary transition-colors whitespace-nowrap text-sm xl:text-base" href="javascript:void(0)" onclick="navigateTo('support')">Contáctenos</a>
+            </div>
+
+            <div class="flex items-center gap-2 md:gap-4 shrink-0">
+              <button class="p-2 text-on-surface-variant hover:bg-surface-container rounded-full transition-colors hidden sm:block">
+                <span class="material-symbols-outlined">notifications</span>
+              </button>
+              <div class="w-8 h-8 md:w-10 md:h-10 rounded-full overflow-hidden border-2 border-primary-container cursor-pointer" onclick="navigateTo('booking')">
+                <img src="Imagenes/Logo/logo.png" alt="Perfil">
+              </div>
+              
+              <!-- Mobile Menu Button -->
+              <button class="lg:hidden p-2 text-primary" onclick="toggleMobileMenu()">
+                <span class="material-symbols-outlined">menu</span>
+              </button>
+            </div>
+          </nav>
+
+          <!-- Mobile Sidebar Menu -->
+          <div id="mobileMenu" class="fixed inset-0 bg-black/50 z-[60] hidden transition-opacity duration-300 opacity-0" onclick="toggleMobileMenu()">
+            <div class="absolute right-0 top-0 h-full w-64 bg-white p-8 shadow-2xl transform translate-x-full transition-transform duration-300" onclick="event.stopPropagation()">
+              <div class="flex justify-between items-center mb-12">
+                <span class="text-xl font-black text-primary">Menú</span>
+                <button onclick="toggleMobileMenu()" class="text-primary">
+                  <span class="material-symbols-outlined">close</span>
+                </button>
+              </div>
+              <div class="flex flex-col gap-8">
+                <a class="text-lg font-bold text-primary italic" href="javascript:void(0)" onclick="navigateTo('destinations'); toggleMobileMenu()">Destinos</a>
+                <a class="text-lg font-bold text-primary italic" href="javascript:void(0)" onclick="navigateTo('viajaxpass'); toggleMobileMenu()">viajaXPass</a>
+                <a class="text-lg font-bold text-primary italic" href="javascript:void(0)" onclick="navigateTo('about'); toggleMobileMenu()">Quiénes Somos</a>
+                <a class="text-lg font-bold text-primary italic" href="javascript:void(0)" onclick="navigateTo('support'); toggleMobileMenu()">Contáctenos</a>
+              </div>
+              <div class="mt-24 pt-8 border-t border-outline-variant/10">
+                <p class="text-xs text-on-surface-variant uppercase font-bold tracking-widest mb-4">Síguenos</p>
+                <div class="flex gap-4">
+                  <div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-primary"><span class="material-symbols-outlined text-sm">share</span></div>
+                  <div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-primary"><span class="material-symbols-outlined text-sm">public</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      function renderFooter() {
+        return `
+          <footer class="bg-primary text-white py-16 px-8 mt-20">
+            <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+              <div class="flex flex-col gap-6">
+                <div class="text-3xl font-black italic font-headline">viajaXColombia</div>
+                <p class="text-white/70 text-sm leading-relaxed max-w-xs">
+                  Inspirando viajes regenerativos y turismo sostenible certificado en el corazón de la biodiversidad colombiana.
+                </p>
+              </div>
+              <div>
+                <h4 class="font-headline text-lg font-bold mb-6">Nuestra Empresa</h4>
+                <ul class="space-y-4 text-sm text-white/70">
+                  <li><a class="hover:text-white transition-colors" href="#">Quiénes Somos</a></li>
+                  <li><a class="hover:text-white transition-colors" href="javascript:void(0)" onclick="navigateTo('about')">Nuestra Historia</a></li>
+                  <li><a class="hover:text-white transition-colors" href="#">Sostenibilidad</a></li>
+                </ul>
+              </div>
+              <div>
+                <h4 class="font-headline text-lg font-bold mb-6">Información Legal</h4>
+                <ul class="space-y-4 text-sm text-white/70">
+                  <li><a class="hover:text-white transition-colors" href="javascript:void(0)" onclick="navigateTo('privacy')">Términos y Condiciones</a></li>
+                  <li><a class="hover:text-white transition-colors" href="javascript:void(0)" onclick="navigateTo('privacy')">Política de Privacidad</a></li>
+                </ul>
+              </div>
+              <div>
+                <h4 class="font-headline text-lg font-bold mb-6">Medios de Pago</h4>
+                <div class="flex flex-wrap gap-3">
+                  <span class="bg-white/10 px-3 py-1 rounded text-[10px] font-bold uppercase">Visa</span>
+                  <span class="bg-white/10 px-3 py-1 rounded text-[10px] font-bold uppercase">Mastercard</span>
+                  <span class="bg-white/10 px-3 py-1 rounded text-[10px] font-bold uppercase">PSE</span>
+                </div>
+              </div>
+            </div>
+            <div class="max-w-7xl mx-auto pt-12 border-t border-white/10 flex justify-between items-center text-xs text-white/40">
+              <p>© 2026 viajaXColombia. Registro Nacional de Turismo #12345.</p>
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-sm">shield</span>
+                <span class="uppercase tracking-widest">Sitio Seguro</span>
+              </div>
+            </div>
+          </footer>
+        `;
+      }
+
+      const screens = {
+        home: () => `
+          ${renderHeader()}
+          <main>
+            <section class="relative h-[90vh] flex items-center justify-center overflow-hidden">
+              <img src="Imagenes/Destinos/Montañas/Colombia.jpg" class="absolute inset-0 w-full h-full object-cover" alt="Hero">
+              <div class="absolute inset-0 hero-gradient"></div>
+              <div class="relative z-10 text-center px-6 max-w-4xl">
+                <h1 class="text-6xl md:text-8xl text-white font-bold italic leading-none mb-6">Viajar con Propósito</h1>
+                <p class="text-white/90 text-xl md:text-2xl mb-10 max-w-2xl mx-auto">Descubre la biodiversidad de Colombia a través de experiencias regenerativas.</p>
+                <div class="flex flex-col md:flex-row gap-4 justify-center">
+                  <button onclick="navigateTo('destinations')" class="silk-gradient text-white px-8 py-4 rounded-xl font-bold text-lg hover:brightness-110 transition-all flex items-center justify-center gap-2">
+                    Explorar Destinos <span class="material-symbols-outlined">arrow_forward</span>
+                  </button>
+                  <button class="bg-white/10 backdrop-blur-md border border-white/20 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-white/20 transition-all">
+                    Ver viajaXPass
+                  </button>
+                </div>
+              </div>
+            </section>
+
+            <section class="py-24 px-8 max-w-7xl mx-auto">
+              <h2 class="text-4xl md:text-5xl font-bold text-primary mb-12 text-center italic">Tu Próxima Expedición</h2>
+              <div class="grid grid-cols-1 md:grid-cols-4 gap-6 h-auto md:h-[600px]">
+                <div class="md:col-span-2 relative rounded-3xl overflow-hidden group">
+                  <img src="Imagenes/Destinos/Montañas/NomadaDigital.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Nomadas">
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent p-8 flex flex-col justify-end">
+                    <h3 class="text-white text-3xl font-bold mb-2">Nómadas Digitales</h3>
+                    <p class="text-white/80 mb-4">Conectividad y naturaleza en balance.</p>
+                    <button class="text-tertiary-fixed-dim font-bold flex items-center gap-2">Descubre tu refugio <span class="material-symbols-outlined">north_east</span></button>
+                  </div>
+                </div>
+                <div class="md:row-span-2 relative rounded-3xl overflow-hidden group">
+                  <img src="Imagenes/Destinos/Montañas/Bienestar.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Bienestar">
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent p-8 flex flex-col justify-end">
+                    <h3 class="text-white text-3xl font-bold mb-2">Bienestar</h3>
+                    <p class="text-white/80 mb-4">Sana tu mente en santuarios de paz.</p>
+                    <button class="text-tertiary-fixed-dim font-bold flex items-center gap-2">Inicia el retiro <span class="material-symbols-outlined">north_east</span></button>
+                  </div>
+                </div>
+                <div class="relative rounded-3xl overflow-hidden group">
+                  <img src="Imagenes/Destinos/Montañas/NaturalezaSilvestre.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Naturaleza">
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent p-6 flex flex-col justify-end">
+                    <h3 class="text-white text-2xl font-bold">Naturaleza Silvestre</h3>
+                  </div>
+                </div>
+                <div class="md:col-span-2 relative rounded-3xl overflow-hidden group">
+                  <img src="Imagenes/Destinos/Montañas/Cultura.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Cultura">
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent p-8 flex flex-col justify-end">
+                    <h3 class="text-white text-3xl font-bold mb-2">Herencia Cultural</h3>
+                    <p class="text-white/80 mb-4">Historias vivas que trascienden.</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="py-24 bg-surface-container-low">
+              <div class="max-w-7xl mx-auto px-8">
+                <div class="flex justify-between items-end mb-12">
+                  <div>
+                    <span class="text-secondary font-bold tracking-widest uppercase text-xs mb-2 block">Selección de Temporada</span>
+                    <h2 class="text-4xl font-bold text-primary italic">Destinos Imprescindibles</h2>
+                  </div>
+                  <button onclick="navigateTo('destinations')" class="text-primary font-bold flex items-center gap-2">Ver todos <span class="material-symbols-outlined">chevron_right</span></button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                  ${appData.destinations.slice(0, 3).map(dest => `
+                    <div class="bg-white rounded-3xl overflow-hidden shadow-sm group cursor-pointer" onclick="navigateTo('booking', '${dest.id}')">
+                      <div class="relative h-64 overflow-hidden">
+                        <img src="${dest.image}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="${dest.name}">
+                        <div class="absolute top-4 left-4 bg-tertiary-fixed-dim px-3 py-1 rounded-full text-xs font-bold">${dest.points}</div>
+                      </div>
+                      <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                          <h3 class="text-2xl font-bold text-primary italic">${dest.name}</h3>
+                          <span class="text-primary font-bold">${dest.price}</span>
+                        </div>
+                        <p class="text-on-surface-variant text-sm mb-6">${dest.description}</p>
+                        <button class="w-full py-3 bg-surface-container-low text-primary font-bold rounded-xl hover:bg-primary hover:text-white transition-all">Reservar Cupo</button>
+                      </div>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            </section>
+          </main>
+          ${renderFooter()}
+        `,
+        destinations: () => `
+          ${renderHeader()}
+          <main class="pt-24 px-8 max-w-7xl mx-auto">
+            <header class="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-20 items-center">
+              <div class="lg:col-span-5">
+                <h1 class="text-5xl md:text-7xl italic text-primary leading-none mb-6">Explora lo Inexplorado</h1>
+                <p class="text-lg text-on-surface-variant mb-8">Curaduría experta de los ecosistemas más vibrantes de Colombia.</p>
+                <div class="bg-white p-2 rounded-2xl shadow-sm border border-outline-variant/10 flex flex-col md:flex-row gap-2">
+                  <div class="flex-1 px-4 py-2 border-r border-outline-variant/10">
+                    <label class="block text-[10px] uppercase font-bold text-secondary mb-1">Ecosistema</label>
+                    <select class="w-full bg-transparent border-none p-0 text-sm font-bold focus:ring-0">
+                      <option>Todos</option>
+                      <option>Selva</option>
+                      <option>Páramo</option>
+                    </select>
+                  </div>
+                  <button class="silk-gradient text-white px-8 py-3 rounded-xl font-bold text-sm">Explorar</button>
+                </div>
+              </div>
+              <div class="lg:col-span-7 relative h-[500px] rounded-3xl overflow-hidden">
+                <img src="${appData.destinations[0].image}" class="w-full h-full object-cover" alt="Featured">
+                <div class="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent"></div>
+                <div class="absolute bottom-8 left-8 text-white">
+                  <span class="bg-secondary-container text-on-surface px-3 py-1 rounded-full text-xs font-bold uppercase mb-2 inline-block">Destino del Mes</span>
+                  <h3 class="text-4xl italic font-bold">${appData.destinations[0].name}</h3>
+                </div>
+              </div>
+            </header>
+
+            <section class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+              <div class="lg:col-span-2 space-y-12">
+                <h2 class="text-3xl text-primary italic">Resultados de la Expedición</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  ${appData.destinations.map(dest => `
+                    <div class="bg-white rounded-3xl overflow-hidden shadow-sm group cursor-pointer" onclick="navigateTo('booking', '${dest.id}')">
+                      <div class="aspect-[4/5] relative overflow-hidden">
+                        <img src="${dest.image}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="${dest.name}">
+                        <div class="absolute top-4 right-4 bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-white text-[10px] font-bold uppercase">${dest.region}</div>
+                      </div>
+                      <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                          <h3 class="text-2xl text-primary italic font-bold">${dest.name}</h3>
+                          <span class="text-lg font-bold text-primary">${dest.price}</span>
+                        </div>
+                        <p class="text-sm text-on-surface-variant mb-6 line-clamp-2">${dest.description}</p>
+                        <div class="flex gap-3">
+                          <button class="flex-1 py-3 text-sm font-bold text-primary bg-surface-container-low rounded-lg">Detalles</button>
+                          <button class="flex-1 py-3 text-sm font-bold text-white silk-gradient rounded-lg">Reservar</button>
+                        </div>
+                      </div>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+              <aside class="space-y-6">
+                <h2 class="text-3xl text-primary italic mb-6">Mapa de Regiones</h2>
+                <div class="bg-surface-container-low rounded-3xl p-4 h-[600px] relative overflow-hidden">
+                  <img src="Imagenes/Destinos/Montañas/Colombia.jpg" class="w-full h-full object-cover opacity-30 grayscale" alt="Map">
+                  <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="bg-white/80 backdrop-blur-md p-4 rounded-2xl border border-outline-variant/20">
+                      <h4 class="text-xs font-bold uppercase text-secondary mb-2">Filtro por Región</h4>
+                      <div class="flex flex-wrap gap-2">
+                        <span class="bg-secondary-container px-3 py-1 rounded-full text-[10px] font-bold">CARIBE</span>
+                        <span class="bg-white px-3 py-1 rounded-full text-[10px] font-bold">ANDINA</span>
+                        <span class="bg-white px-3 py-1 rounded-full text-[10px] font-bold">AMAZONÍA</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </aside>
+            </section>
+          </main>
+          ${renderFooter()}
+        `,
+        about: () => `
+          ${renderHeader()}
+          <main>
+            <section class="relative min-h-[80vh] flex items-center overflow-hidden">
+              <img src="Imagenes/Destinos/Montañas/colombia01.jpg" class="absolute inset-0 w-full h-full object-cover" alt="About">
+              <div class="absolute inset-0 bg-gradient-to-r from-white via-white/40 to-transparent"></div>
+              <div class="relative z-10 w-full max-w-7xl mx-auto px-8">
+                <div class="max-w-2xl">
+                  <span class="text-secondary font-bold tracking-widest uppercase text-xs mb-4 block">Nuestra Esencia</span>
+                  <h1 class="text-6xl md:text-8xl text-primary font-bold italic leading-none mb-6">Pasión por Colombia.</h1>
+                  <p class="text-lg md:text-xl text-on-surface-variant leading-relaxed">En ViajaXColombia buscamos conectar a las personas con la auténtica cultura y naturaleza de Colombia, ofreciendo experiencias de viaje memorables, responsables y llenas de descubrimiento.</p>
+                </div>
+              </div>
+            </section>
+
+            <section class="py-24 bg-surface-container-low px-8">
+              <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-16">
+                <div class="md:col-span-5">
+                  <h2 class="text-4xl md:text-5xl text-primary italic mb-8">Nuestros Orígenes</h2>
+                  <div class="w-24 h-1 bg-secondary-container mb-8"></div>
+                  <p class="text-on-surface-variant text-lg">ViajaXColombia nació del deseo de mostrar la riqueza cultural, histórica y natural de Colombia a viajeros locales e internacionales.</p>
+                </div>
+                <div class="md:col-span-7 bg-white p-10 rounded-3xl">
+                  <p class="text-on-surface-variant text-lg leading-relaxed">Fundada por un equipo apasionado por el turismo y la sostenibilidad, la agencia se ha dedicado desde sus inicios a crear experiencias auténticas, que permiten conocer el país de manera cercana, respetuosa y transformadora, promoviendo al mismo tiempo el desarrollo de las comunidades y destinos que visitamos.</p>
+                </div>
+              </div>
+            </section>
+
+            <section class="py-24 px-8 max-w-7xl mx-auto">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div>
+                  <span class="inline-block px-4 py-1 bg-secondary-container rounded-full text-xs font-bold mb-6">Misión</span>
+                  <h3 class="text-3xl text-primary italic mb-6">Nuestra Misión</h3>
+                  <p class="text-on-surface-variant text-lg leading-relaxed">La misión de ViajaXColombia | Viajes, Cultura y Naturaleza es ofrecer experiencias turísticas auténticas, accesibles y de calidad que promuevan el conocimiento, la valoración y la conservación de la riqueza cultural y natural de Colombia. A través de una plataforma digital innovadora, la agencia busca conectar a los usuarios con destinos y servicios cuidadosamente seleccionados, facilitando la planificación de viajes de manera eficiente, segura y personalizada, mientras contribuye al desarrollo sostenible de las comunidades locales y al fortalecimiento del turismo responsable en el país.</p>
+                </div>
+                <div>
+                  <span class="inline-block px-4 py-1 bg-primary-fixed rounded-full text-xs font-bold mb-6">Visión</span>
+                  <h3 class="text-3xl text-primary italic mb-6">Nuestra Visión</h3>
+                  <p class="text-on-surface-variant text-lg leading-relaxed">En ViajaXColombia | Viajes, Cultura y Naturaleza, aspiramos a convertirnos en la agencia líder en experiencias turísticas auténticas en Colombia, reconocida por ofrecer viajes que conecten a los visitantes con la riqueza cultural, natural y social del país. Buscamos inspirar a cada viajero a descubrir nuevos destinos, promoviendo el turismo responsable y sostenible, y generando experiencias memorables que fomenten el amor y el respeto por la diversidad y belleza de Colombia.</p>
+                </div>
+              </div>
+            </section>
+          </main>
+          ${renderFooter()}
+        `,
+        booking: () => {
+          const destId = window.selectedDestinationId;
+          const destination = appData.destinations.find(d => d.id === destId) || appData.destinations[0];
+          
+          const today = new Date().toISOString().split('T')[0];
+          const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0];
+          
+          return `
+            ${renderHeader()}
+            <main class="pt-24 pb-24 px-8 max-w-7xl mx-auto">
+              <div class="mb-12">
+                <div class="relative h-[400px] rounded-3xl overflow-hidden mb-8">
+                  <img src="${destination.image}" class="w-full h-full object-cover" alt="${destination.name}">
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                  <div class="absolute bottom-8 left-8 text-white">
+                    <span class="bg-secondary-container text-on-surface px-3 py-1 rounded-full text-xs font-bold uppercase mb-2 inline-block">${destination.region}</span>
+                    <h1 class="text-5xl font-bold italic">${destination.name}</h1>
+                  </div>
+                </div>
+                <div class="max-w-3xl">
+                  <p class="text-xl text-on-surface-variant leading-relaxed">${destination.description}</p>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 lg:grid-cols-12 gap-16">
+                <div class="lg:col-span-5 space-y-12">
+                  <div class="bg-surface-container-low p-10 rounded-3xl">
+                    <h2 class="text-3xl font-bold text-primary italic mb-8">Comience su Expedición</h2>
+                    <form class="space-y-6">
+                      <div>
+                        <label class="block text-sm font-bold text-primary mb-2">Nombre Completo</label>
+                        <input type="text" class="w-full bg-white border-none rounded-xl p-4 focus:ring-2 focus:ring-primary" placeholder="Ej. Ana María Restrepo">
+                      </div>
+                      <div>
+                        <label class="block text-sm font-bold text-primary mb-2">Correo Electrónico</label>
+                        <input type="email" class="w-full bg-white border-none rounded-xl p-4 focus:ring-2 focus:ring-primary" placeholder="ana@ejemplo.com">
+                      </div>
+                      <button type="button" class="w-full silk-gradient text-white font-bold py-4 rounded-xl shadow-lg">Crear Cuenta</button>
+                    </form>
+                  </div>
+                  <div class="space-y-8">
+                    <h3 class="text-2xl font-bold text-primary italic">¿Por qué confiar en nosotros?</h3>
+                    <div class="flex gap-6">
+                      <div class="bg-secondary-container p-3 rounded-xl h-fit"><span class="material-symbols-outlined">support_agent</span></div>
+                      <div>
+                        <h4 class="font-bold text-primary">Soporte Local 24/7</h4>
+                        <p class="text-sm text-on-surface-variant">Expertos en territorio listos para asistirte.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="lg:col-span-7">
+                  <div class="bg-white border border-outline-variant/10 p-10 rounded-3xl shadow-sm sticky top-28">
+                    <div class="flex justify-between items-start mb-8">
+                      <h2 class="text-3xl font-bold text-primary italic">Reserva de Experiencia</h2>
+                      <div class="text-right">
+                        <span id="pricePerPerson" data-price="${destination.price}" class="text-2xl font-bold text-secondary">${destination.price}</span>
+                        <span class="block text-[10px] text-on-surface-variant uppercase">POR PERSONA / DÍA</span>
+                      </div>
+                    </div>
+                    <div class="space-y-6">
+                      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label class="text-xs font-bold text-primary uppercase mb-2 block">Fecha Inicio</label>
+                          <input type="date" id="startDate" value="${today}" oninput="updateBookingSummary()" class="w-full bg-surface-container-low border-none rounded-xl p-4">
+                        </div>
+                        <div>
+                          <label class="text-xs font-bold text-primary uppercase mb-2 block">Fecha Fin</label>
+                          <input type="date" id="endDate" value="${tomorrow}" oninput="updateBookingSummary()" class="w-full bg-surface-container-low border-none rounded-xl p-4">
+                        </div>
+                      </div>
+                      <div>
+                        <label class="text-xs font-bold text-primary uppercase mb-2 block">Número de Viajeros</label>
+                        <input type="number" id="travelers" value="2" min="1" oninput="updateBookingSummary()" class="w-full bg-surface-container-low border-none rounded-xl p-4">
+                      </div>
+                      <div class="pt-8 border-t border-outline-variant/10">
+                        <div class="flex justify-between mb-4">
+                          <span class="text-on-surface-variant">Desglose</span>
+                          <span id="bookingSubtotal" class="font-bold text-right text-sm"></span>
+                        </div>
+                        <div class="flex justify-between items-center mb-8">
+                          <span class="text-xl font-bold text-primary">Total Estimado</span>
+                          <span id="bookingTotal" class="text-2xl font-bold text-primary"></span>
+                        </div>
+                        <button type="button" class="w-full bg-primary text-white font-bold py-5 rounded-xl text-lg">Confirmar Reserva</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </main>
+            ${renderFooter()}
+          `;
+        },
+        support: () => `
+          ${renderHeader()}
+          <main class="pt-24 px-8 max-w-7xl mx-auto pb-24">
+            <section class="relative h-[400px] rounded-3xl overflow-hidden flex items-center px-12 mb-16">
+              <img src="Imagenes/Destinos/Montañas/Colombia02.jpg" class="absolute inset-0 w-full h-full object-cover opacity-40" alt="Support">
+              <div class="absolute inset-0 bg-primary/60"></div>
+              <div class="relative z-10 text-white">
+                <h1 class="text-5xl font-bold italic mb-4">Conéctate con la Expedición</h1>
+                <p class="text-xl max-w-2xl">Nuestra red de expertos locales está lista para guiarte.</p>
+              </div>
+            </section>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-24">
+              <div class="lg:col-span-7 bg-white p-12 rounded-3xl shadow-sm">
+                <h2 class="text-3xl font-bold text-primary italic mb-8">Envíanos un mensaje</h2>
+                <form class="space-y-6">
+                  <div class="grid grid-cols-2 gap-6">
+                    <input type="text" placeholder="Nombre" class="w-full bg-surface-container-low border-none rounded-xl p-4">
+                    <input type="email" placeholder="Email" class="w-full bg-surface-container-low border-none rounded-xl p-4">
+                  </div>
+                  <textarea placeholder="Tu mensaje" rows="5" class="w-full bg-surface-container-low border-none rounded-xl p-4"></textarea>
+                  <button type="button" class="silk-gradient text-white font-bold py-4 px-8 rounded-xl">Enviar Mensaje</button>
+                </form>
+              </div>
+              <div class="lg:col-span-5 space-y-8">
+                <div class="bg-primary text-white p-8 rounded-3xl">
+                  <span class="bg-tertiary-fixed-dim text-on-tertiary-fixed px-3 py-1 rounded-full text-xs font-bold uppercase mb-4 inline-block">Soporte 24/7</span>
+                  <h3 class="text-2xl font-bold mb-4">Estamos para ti.</h3>
+                  <div class="space-y-4">
+                    <div class="flex items-center gap-3"><span class="material-symbols-outlined">call</span><span class="font-bold">+57 (601) 555-0123</span></div>
+                    <div class="flex items-center gap-3"><span class="material-symbols-outlined">mail</span><span>ayuda@viajaxcolombia.com</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <h2 class="text-4xl font-bold text-primary italic mb-12">Oficinas de Expedición</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+              ${appData.offices.map(office => `
+                <div class="bg-white rounded-3xl overflow-hidden shadow-sm group">
+                  <div class="h-48 overflow-hidden"><img src="${office.image}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="${office.city}"></div>
+                  <div class="p-6">
+                    <h4 class="text-xl font-bold mb-2">${office.city}</h4>
+                    <p class="text-sm text-on-surface-variant mb-4">${office.address}</p>
+                    <span class="text-xs font-bold text-secondary uppercase">${office.hours}</span>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </main>
+          ${renderFooter()}
+        `,
+        search: () => {
+          const query = (window.currentSearchQuery || '').toLowerCase();
+          const destMatches = appData.destinations.filter(d => 
+            d.name.toLowerCase().includes(query) || 
+            d.description.toLowerCase().includes(query) || 
+            d.region.toLowerCase().includes(query)
+          );
+          const expMatches = appData.expeditions.filter(e => 
+            e.title.toLowerCase().includes(query) || 
+            e.description.toLowerCase().includes(query) || 
+            e.category.toLowerCase().includes(query)
+          );
+
+          return `
+            ${renderHeader()}
+            <main class="pt-32 px-8 max-w-7xl mx-auto min-h-[60vh]">
+              <div class="mb-12">
+                <span class="text-secondary font-bold tracking-widest uppercase text-xs mb-2 block">Resultados de Búsqueda</span>
+                <h1 class="text-4xl md:text-5xl font-bold text-primary italic mb-4">"${window.currentSearchQuery || ''}"</h1>
+                <p class="text-on-surface-variant">Encontramos ${destMatches.length + expMatches.length} coincidencias en nuestra base de datos.</p>
+              </div>
+              
+              ${destMatches.length > 0 ? `
+                <section class="mb-16">
+                  <h2 class="text-2xl font-bold text-primary italic mb-8 flex items-center gap-3">
+                    <span class="material-symbols-outlined">map</span> Destinos
+                  </h2>
+                  <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    ${destMatches.map(dest => `
+                      <div class="bg-white rounded-3xl overflow-hidden shadow-sm group cursor-pointer" onclick="navigateTo('booking', '${dest.id}')">
+                        <div class="relative h-56 overflow-hidden">
+                          <img src="${dest.image}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="${dest.name}">
+                          <div class="absolute top-4 left-4 bg-tertiary-fixed-dim px-3 py-1 rounded-full text-[10px] font-bold uppercase">${dest.region}</div>
+                        </div>
+                        <div class="p-6">
+                          <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-bold text-primary italic">${dest.name}</h3>
+                            <span class="font-bold text-primary">${dest.price}</span>
+                          </div>
+                          <p class="text-sm text-on-surface-variant line-clamp-2 mb-4">${dest.description}</p>
+                          <button class="text-primary font-bold text-sm flex items-center gap-1">Ver detalles <span class="material-symbols-outlined text-sm">arrow_forward</span></button>
+                        </div>
+                      </div>
+                    `).join('')}
+                  </div>
+                </section>
+              ` : ''}
+
+              ${expMatches.length > 0 ? `
+                <section class="mb-16">
+                  <h2 class="text-2xl font-bold text-primary italic mb-8 flex items-center gap-3">
+                    <span class="material-symbols-outlined">explore</span> Expediciones
+                  </h2>
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    ${expMatches.map(exp => `
+                      <div class="bg-white rounded-3xl overflow-hidden shadow-sm flex flex-col md:flex-row group cursor-pointer" onclick="navigateTo('booking', 'tayrona')">
+                        <div class="md:w-1/3 h-48 md:h-auto overflow-hidden">
+                          <img src="${exp.image}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="${exp.title}">
+                        </div>
+                        <div class="p-6 md:w-2/3 flex flex-col justify-center">
+                          <span class="text-[10px] font-bold text-secondary uppercase mb-2 block tracking-widest">${exp.category}</span>
+                          <h3 class="text-xl font-bold text-primary italic mb-2">${exp.title}</h3>
+                          <p class="text-sm text-on-surface-variant line-clamp-2 mb-4">${exp.description}</p>
+                          <div class="flex items-center justify-between mt-auto">
+                            <span class="text-primary font-bold">${exp.price}</span>
+                            <span class="text-xs text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-sm">schedule</span> ${exp.duration}</span>
+                          </div>
+                        </div>
+                      </div>
+                    `).join('')}
+                  </div>
+                </section>
+              ` : ''}
+
+              ${destMatches.length === 0 && expMatches.length === 0 ? `
+                <div class="text-center py-32 bg-surface-container-low rounded-3xl border-2 border-dashed border-outline-variant/20">
+                  <span class="material-symbols-outlined text-7xl text-outline-variant mb-6">search_off</span>
+                  <h3 class="text-2xl font-bold text-primary italic mb-2">Sin coincidencias</h3>
+                  <p class="text-on-surface-variant max-w-md mx-auto mb-8">No encontramos resultados para tu búsqueda. Intenta con términos más generales como "Selva", "Andes" o "Café".</p>
+                  <button onclick="navigateTo('destinations')" class="silk-gradient text-white px-8 py-3 rounded-xl font-bold">Explorar todo el catálogo</button>
+                </div>
+              ` : ''}
+            </main>
+            ${renderFooter()}
+          `;
+        },
+        viajaxpass: () => {
+          const itemsPerPage = 6;
+          const currentPage = window.viajaxpassPage || 1;
+          const startIndex = (currentPage - 1) * itemsPerPage;
+          const endIndex = startIndex + itemsPerPage;
+          const displayedDestinations = appData.destinations.slice(startIndex, endIndex);
+          const totalPages = Math.ceil(appData.destinations.length / itemsPerPage);
+
+          return `
+            ${renderHeader()}
+            <main class="pt-32 px-8 max-w-7xl mx-auto pb-24">
+              <div class="flex flex-col lg:flex-row gap-8">
+                <!-- Sidebar Filters -->
+                <aside class="lg:w-1/4">
+                  <div class="bg-white rounded-3xl p-8 shadow-sm sticky top-32">
+                    <div class="flex items-center gap-2 mb-8">
+                      <span class="material-symbols-outlined text-secondary">location_on</span>
+                      <h3 class="text-xl font-bold text-primary italic">Ubicación</h3>
+                    </div>
+                    
+                    <div class="space-y-6">
+                      <div>
+                        <h4 class="font-bold text-sm text-primary mb-4">Regiones</h4>
+                        <div class="space-y-3">
+                          ${['Caribe', 'Andina', 'Pacífico', 'Amazonía', 'Orinoquía', 'Insular'].map(reg => `
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                              <input type="checkbox" class="w-5 h-5 rounded border-outline-variant text-primary focus:ring-primary">
+                              <span class="text-sm text-on-surface-variant group-hover:text-primary transition-colors">${reg}</span>
+                            </label>
+                          `).join('')}
+                        </div>
+                      </div>
+
+                      <div>
+                        <h4 class="font-bold text-sm text-primary mb-4">Tipo de Tour</h4>
+                        <div class="space-y-3">
+                          ${['Aventura', 'Cultural', 'Playa', 'Senderismo', 'Familiar'].map(type => `
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                              <input type="checkbox" class="w-5 h-5 rounded border-outline-variant text-primary focus:ring-primary">
+                              <span class="text-sm text-on-surface-variant group-hover:text-primary transition-colors">${type}</span>
+                            </label>
+                          `).join('')}
+                        </div>
+                      </div>
+
+                      <div>
+                        <h4 class="font-bold text-sm text-primary mb-4">Rango de Precio (COP)</h4>
+                        <div class="space-y-3">
+                          ${['$0 - $500.000', '$500.000 - $1.000.000', '$1.000.000+'].map(price => `
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                              <input type="checkbox" class="w-5 h-5 rounded border-outline-variant text-primary focus:ring-primary">
+                              <span class="text-sm text-on-surface-variant group-hover:text-primary transition-colors">${price}</span>
+                            </label>
+                          `).join('')}
+                        </div>
+                      </div>
+
+                      <div>
+                        <h4 class="font-bold text-sm text-primary mb-4">Duración</h4>
+                        <div class="space-y-3">
+                          ${['3 días', '5 días', '1 semana', '2 semanas'].map(dur => `
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                              <input type="checkbox" class="w-5 h-5 rounded border-outline-variant text-primary focus:ring-primary">
+                              <span class="text-sm text-on-surface-variant group-hover:text-primary transition-colors">${dur}</span>
+                            </label>
+                          `).join('')}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </aside>
+
+                <!-- Main Content -->
+                <div class="lg:w-3/4">
+                  <div class="mb-8 flex justify-between items-center">
+                    <h2 class="text-2xl font-bold text-primary italic">Explora el Catálogo</h2>
+                    <span class="text-sm text-on-surface-variant">Mostrando ${startIndex + 1}-${Math.min(endIndex, appData.destinations.length)} de ${appData.destinations.length} destinos</span>
+                  </div>
+
+                  <div class="space-y-8">
+                    ${displayedDestinations.map(dest => `
+                      <div class="bg-white rounded-3xl overflow-hidden shadow-sm flex flex-col md:flex-row group border border-outline-variant/10">
+                        <div class="md:w-2/5 relative overflow-hidden h-64 md:h-auto">
+                          <img src="${dest.image}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="${dest.name}">
+                          <button class="absolute top-4 right-4 bg-white/80 backdrop-blur-md p-2 rounded-full text-primary hover:bg-white transition-colors">
+                            <span class="material-symbols-outlined">favorite</span>
+                          </button>
+                        </div>
+                        <div class="p-8 md:w-3/5 flex flex-col">
+                          <div class="flex justify-between items-start mb-2">
+                            <div class="flex items-center gap-2 text-on-surface-variant text-sm">
+                              <span class="material-symbols-outlined text-sm">location_on</span>
+                              <span>${dest.region}</span>
+                            </div>
+                            <span class="text-2xl font-bold text-primary italic">${dest.price}</span>
+                          </div>
+                          
+                          <h3 class="text-2xl font-bold text-primary italic mb-2">${dest.name} <span class="text-sm font-normal text-on-surface-variant ml-2">${dest.category || ''}</span></h3>
+                          
+                          <div class="flex gap-6 mb-4 text-sm text-on-surface-variant">
+                            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">group</span> ${dest.people || 10} Personas</span>
+                            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">schedule</span> ${dest.duration || '3 días'}</span>
+                          </div>
+
+                          <p class="text-on-surface-variant mb-6 line-clamp-2">${dest.description}</p>
+
+                          <div class="flex items-center gap-1 mb-6">
+                            ${Array(5).fill(0).map((_, i) => `
+                              <span class="material-symbols-outlined text-sm ${i < Math.floor(dest.rating || 4.5) ? 'text-secondary' : 'text-outline-variant'}">star</span>
+                            `).join('')}
+                            <span class="text-xs text-on-surface-variant ml-2">(${dest.reviews || 45} Reseñas)</span>
+                          </div>
+
+                          <div class="flex gap-4 mt-auto">
+                            <button onclick="navigateTo('booking', '${dest.id}')" class="flex-1 border border-primary text-primary font-bold py-3 rounded-xl hover:bg-primary/5 transition-colors">Detalles</button>
+                            <button onclick="navigateTo('booking', '${dest.id}')" class="flex-1 silk-gradient text-white font-bold py-3 rounded-xl shadow-lg hover:shadow-xl transition-all">Reservar</button>
+                          </div>
+                        </div>
+                      </div>
+                    `).join('')}
+                  </div>
+
+                  <!-- Pagination -->
+                  <div class="mt-12 flex justify-center items-center gap-2">
+                    <button onclick="changeViajaxpassPage(${currentPage - 1})" class="w-10 h-10 flex items-center justify-center rounded-xl border border-outline-variant text-primary hover:bg-primary/5 disabled:opacity-30" ${currentPage === 1 ? 'disabled' : ''}>
+                      <span class="material-symbols-outlined">chevron_left</span>
+                    </button>
+                    
+                    ${Array(totalPages).fill(0).map((_, i) => `
+                      <button onclick="changeViajaxpassPage(${i + 1})" class="w-10 h-10 flex items-center justify-center rounded-xl font-bold transition-all ${currentPage === i + 1 ? 'silk-gradient text-white shadow-md' : 'border border-outline-variant text-primary hover:bg-primary/5'}">
+                        ${i + 1}
+                      </button>
+                    `).join('')}
+
+                    <button onclick="changeViajaxpassPage(${currentPage + 1})" class="w-10 h-10 flex items-center justify-center rounded-xl border border-outline-variant text-primary hover:bg-primary/5 disabled:opacity-30" ${currentPage === totalPages ? 'disabled' : ''}>
+                      <span class="material-symbols-outlined">chevron_right</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </main>
+            ${renderFooter()}
+          `;
+        },
+        privacy: () => `
+          ${renderHeader()}
+          <main class="pt-32 px-8 max-w-4xl mx-auto pb-24">
+            <div class="mb-12">
+              <span class="text-secondary font-bold tracking-widest uppercase text-xs mb-2 block">Información Legal</span>
+              <h1 class="text-4xl md:text-5xl font-bold text-primary italic mb-6">Términos y Condiciones & Política de Privacidad</h1>
+              <p class="text-on-surface-variant font-bold mb-8">ViajaXColombia | Agencia de Viajes y Experiencias</p>
+            </div>
+            
+            <div class="prose prose-primary max-w-none space-y-8 text-on-surface-variant leading-relaxed">
+              <p>
+                En ViajaXColombia, nos comprometemos a proteger la privacidad de los usuarios y garantizar el adecuado tratamiento de la información proporcionada a través de la plataforma. La aplicación puede recopilar datos básicos suministrados voluntariamente por el usuario mediante formularios, tales como nombre, correo electrónico y mensajes, así como información de uso almacenada de manera local en el dispositivo (por ejemplo, favoritos), con fines exclusivamente funcionales.
+              </p>
+              
+              <p>
+                La información recopilada se utiliza únicamente para gestionar solicitudes de contacto, mejorar la experiencia de navegación y habilitar funcionalidades del sistema. En esta fase del proyecto, los datos no son almacenados en servidores externos, ya que el aplicativo utiliza tecnologías de almacenamiento local como localStorage, lo que implica que la información permanece en el dispositivo del usuario y no es compartida con terceros ni utilizada con fines comerciales no autorizados.
+              </p>
+              
+              <p>
+                Asimismo, se implementan medidas básicas de seguridad para proteger la información, sin perjuicio de que el usuario reconoce los riesgos inherentes al uso de plataformas digitales. El usuario podrá ejercer sus derechos de acceso, actualización o eliminación de datos, así como abstenerse de suministrar información personal. ViajaXColombia se reserva el derecho de modificar esta política en cualquier momento, y el uso continuo de la plataforma implica la aceptación de estos términos.
+              </p>
+            </div>
+
+            <div class="mt-16 p-8 bg-surface-container-low rounded-3xl border border-outline-variant/10">
+              <h3 class="text-xl font-bold text-primary italic mb-4">Contacto Legal</h3>
+              <p class="text-sm">Si tienes dudas sobre el tratamiento de tus datos, puedes escribirnos a <a href="mailto:legal@viajaxcolombia.com" class="text-primary font-bold underline">legal@viajaxcolombia.com</a></p>
+            </div>
+          </main>
+          ${renderFooter()}
+        `
+      };
+
+      function navigateTo(screen, id) {
+        if (id) window.selectedDestinationId = id;
+        if (root && screens[screen]) {
+          root.innerHTML = screens[screen]();
+          window.scrollTo(0, 0);
+          window.location.hash = id ? `${screen}/${id}` : screen;
+          if (screen === 'booking') updateBookingSummary();
+        }
+      }
+
+      window.updateBookingSummary = () => {
+        const startDateInput = document.getElementById('startDate');
+        const endDateInput = document.getElementById('endDate');
+        const travelersInput = document.getElementById('travelers');
+        const subtotalEl = document.getElementById('bookingSubtotal');
+        const totalEl = document.getElementById('bookingTotal');
+        const priceDisplay = document.getElementById('pricePerPerson');
+
+        if (!startDateInput || !endDateInput || !travelersInput || !subtotalEl || !totalEl || !priceDisplay) return;
+
+        const start = new Date(startDateInput.value);
+        const end = new Date(endDateInput.value);
+        const travelers = parseInt(travelersInput.value) || 1;
+        
+        let days = 1;
+        if (!isNaN(start.getTime()) && !isNaN(end.getTime())) {
+          const diffTime = end - start;
+          days = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+          if (days < 1) days = 1;
+        }
+
+        const priceStr = priceDisplay.dataset.price;
+        const price = parsePrice(priceStr);
+        
+        const total = price * travelers * days;
+        
+        subtotalEl.innerHTML = `${formatPrice(price)} x ${travelers} pers. x ${days} ${days === 1 ? 'día' : 'días'}`;
+        totalEl.innerText = formatPrice(total);
+      };
+
+      function parsePrice(str) {
+        let val = str.replace('$', '').replace(/\s/g, '').toLowerCase();
+        if (val.includes('m')) {
+          return parseFloat(val.replace(',', '.')) * 1000000;
+        }
+        if (val.includes('k')) {
+          return parseFloat(val.replace(',', '.')) * 1000;
+        }
+        return parseFloat(val.replace(/\./g, '').replace(',', '.')) || 0;
+      }
+
+      function formatPrice(num) {
+        return new Intl.NumberFormat('es-CO', {
+          style: 'currency',
+          currency: 'COP',
+          maximumFractionDigits: 0
+        }).format(num);
+      }
+
+      window.toggleMobileMenu = () => {
+        const menu = document.getElementById('mobileMenu');
+        if (!menu) return;
+        const sidebar = menu.querySelector('div');
+        
+        if (menu.classList.contains('hidden')) {
+          menu.classList.remove('hidden');
+          setTimeout(() => {
+            menu.classList.add('opacity-100');
+            sidebar.classList.remove('translate-x-full');
+          }, 10);
+        } else {
+          menu.classList.remove('opacity-100');
+          sidebar.classList.add('translate-x-full');
+          setTimeout(() => {
+            menu.classList.add('hidden');
+          }, 300);
+        }
+      };
+
+      window.changeViajaxpassPage = (page) => {
+        window.viajaxpassPage = page;
+        root.innerHTML = screens.viajaxpass();
+        window.scrollTo(0, 0);
+      };
+
+      window.navigateTo = navigateTo;
+
+      window.triggerSearch = () => {
+        const input = document.getElementById('globalSearch');
+        if (input && input.value.trim()) {
+          window.currentSearchQuery = input.value.trim();
+          navigateTo('search');
+        }
+      };
+
+      // Initial route
+      window.addEventListener('load', () => {
+        const hashParts = window.location.hash.replace('#', '').split('/');
+        const screen = hashParts[0] || 'home';
+        const id = hashParts[1];
+        if (id) window.selectedDestinationId = id;
+        navigateTo(screen, id);
+      });
+
+      window.addEventListener('hashchange', () => {
+        const hashParts = window.location.hash.replace('#', '').split('/');
+        const screen = hashParts[0] || 'home';
+        const id = hashParts[1];
+        if (id) window.selectedDestinationId = id;
+        navigateTo(screen, id);
+      });
+    </script>
+  </body>
+</html>

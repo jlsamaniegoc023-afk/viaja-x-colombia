@@ -1,0 +1,7 @@
+{
+  "name": "viajaXColombia",
+  "description": "Plataforma de turismo regenerativo y expediciones curadas en el corazón de la biodiversidad colombiana.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
